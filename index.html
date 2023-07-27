@@ -1,0 +1,192 @@
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+      rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="./resources/style.css" media="screen"/>
+
+<html lang="en">
+<head>
+	<title>ADAPT: Efficient Multi-Agent Trajectory Prediction with Adaptations</title>
+    <!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/
+        if you update and want to force Facebook to re-scrape. -->
+	<meta property="og:image" content="Path to my teaser.jpg"/>
+	<meta property="og:title" content="ADAPT" />
+	<meta property="og:description" content="ADAPT" />
+    <!-- Twitter automatically scrapes this. Go to https://cards-dev.twitter.com/validator?
+        if you update and want to force Twitter to re-scrape. -->
+    <meta property="twitter:card"          content="ADAPT" />
+    <meta property="twitter:title"         content="ADAPT" />
+    <meta property="twitter:description"   content="ADAPT" />
+    <meta property="twitter:image"         content="Path to my teaser.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Add your Google Analytics tag here -->
+    <script async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-97476543-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-97476543-1');
+    </script>
+
+</head>
+
+<body>
+<div class="container">
+    <div class="title">
+      ADAPT: Efficient Multi-Agent Trajectory Prediction with Adaptation
+    </div>
+
+
+    <br><br>
+    <div class="author">
+        <a href="https://github.com/gorkaydemir" target="_blank">Gorkay Aydemir</a><sup>1</sup>
+    </div>
+    <div class="author">
+        <a href="https://kaanakan.github.io" target="_blank">Adil Kaan Akan</a><sup>1, 2</sup>
+    </div>
+    <div class="author">
+        <a href="https://mysite.ku.edu.tr/fguney/" target="_blank">Fatma Guney</a><sup>1, 2</sup>
+    </div>
+
+    <br><br>
+    <div class="affiliation"><sup>1&nbsp;</sup><a href="https://ai.ku.edu.tr" target="_blank">KUIS AI Center</a></div>
+    <div class="affiliation"><sup>2&nbsp;</sup><a href="https://cs.ku.edu.tr" target="_blank">Department of Computer Engineering, Koc University</a></div>
+
+    
+    <div class="venue">
+      ICCV 2023
+    </div>
+    <br><br>
+
+
+    <div class="links">Paper <a href="https://arxiv.org/abs/2307.14187" target="_blank"> [arXiv]</a></div>
+    <div class="links">Code [Coming Soon]</a></div>
+    <div class="links">Cite <a href="./resources/bibtex.txt" target="_blank"> [BibTeX]</a></div>
+
+    <br>
+    <br>
+
+    <img style="width: 60%;" src="./resources/sota_plot.png" alt="Accuracy vs. Efficiency"/><br><br>
+    <div class="box"><b> <FONT COLOR="RED">TL;DR</FONT></b> Can we do multiple future predictions for every agent in a shared scene-centric reference frame efficiently without sacrificing accuracy? If we can <b>ADAPT</b> to the situation of each agent, we can! </div>
+
+    <br>
+
+    <br>
+    <hr>
+
+    <h1>Abstract</h1>
+    <p style="width: 80%;">
+      Forecasting future trajectories of agents in complex traffic scenes requires reliable and efficient predictions for all
+      agents in the scene. However, existing methods for trajectory prediction are either inefficient or sacrifice accuracy.
+      To address this challenge, we propose ADAPT, a novel approach for jointly predicting the trajectories of all agents
+      in the scene with dynamic weight learning. Our approach outperforms state-of-the-art methods in both single-agent
+      and multi-agent settings on the Argoverse and Interaction datasets, with a fraction of their computational overhead.
+      We attribute the improvement in our performance: first, to the adaptive head augmenting the model capacity without
+      increasing the model size; second, to our design choices in the endpoint-conditioned prediction, reinforced by gradient
+      stopping. Our analyses show that ADAPT can focus on each agent with adaptive prediction, allowing for accurate predictions efficiently.
+    </p>
+
+    <br><br>
+    <hr>
+
+    <h1>Method Overview</h1>
+    <img style="width: 80%;" src="./resources/pipeline.png"
+         alt="Method overview figure"/>
+    <br><br>
+    <p style="width: 80%;">
+      Our scene encoding approach involves separate polyline encoders that interact in feature encoding (left).
+      To predict endpoint proposals, we utilize the endpoint head, which employs the adaptive head with dynamic weights for multiagent prediction, without the need to transform the scene for each agent. Conversely, we use static head (simple MLP) for
+      single-agent prediction. Then we perform endpoint refinement to improve accuracy (middle). Finally, we interpolate the
+      full trajectory for each agent using the refined endpoints (right). By utilizing gradient detaching for endpoint and trajectory
+      prediction modules, we achieve better performance with a small and fast architecture. Please refer to our paper for more details.
+    </p>
+    <br>
+
+    <hr>
+
+    <h1>Results</h1>
+
+    <img style="width: 50%;" src="./resources/argoverse_sota.png" alt="Argoverse SOTA"/><br><br>
+    <p style="width: 80%;">
+      <b>Results on Argoverse Test Set.</b> This table shows single-agent results on Argoverse. Our method achieves the best results in terms of the official metric brier-mFDE.
+    </p>
+    <br><br>
+
+    <img style="width: 47%;" src="./resources/interaction_sota.png" alt="Interaction SOTA"/><br><br>
+    <p style="width: 80%;">
+      <b>Results on Interaction Validation Set.</b> This table shows multi-agent results on Interaction. Our method significantly outperforms other methods with a large gap in all metrics. Impressively, it reaches 1% miss rate, showing that our method can predict future trajectories accurately for all agents in the scene.
+    </p>
+
+    <br>
+
+    <hr>
+
+
+    <h1>Qualitative Results</h1>
+
+    <div class="row">
+      <div class="cropped">
+        <img style="width: 100%;" src="./resources/result_gifs/multi_1332.gif"/>
+      </div>
+      <div class="cropped">
+        <img style="width: 100%;" src="./resources/result_gifs/13214.gif"/>
+      </div>
+    </div><br><br>
+    <div class="row">
+      <div class="cropped">
+        <img style="width: 100%;" src="./resources/result_gifs/multi_1130.gif"/>
+      </div>
+      <div class="cropped">
+        <img style="width: 100%;" src="./resources/result_gifs/35948.gif"/>
+      </div>
+    </div><br><br>
+    <div class="row">
+      <div class="cropped">
+        <img style="width: 100%;" src="./resources/result_gifs/multi_2393.gif"/>
+      </div>
+      <div class="cropped">
+        <img style="width: 100%;" src="./resources/result_gifs/1943.gif"/>
+      </div>
+    </div><br><br>
+    <div class="row">
+      <div class="cropped">
+        <img style="width: 100%;" src="./resources/result_gifs/multi_47.gif"/>
+      </div>
+      <div class="cropped">
+        <img style="width: 100%;" src="./resources/result_gifs/18842.gif"/>
+      </div>
+    </div><br><br>
+
+    <p style="width: 80%;">
+      <b> Example predictions from Interaction and Argoverse datasets. </b>
+        We visualize multi-agent predictions on Interaction (left) and single-agent on Argoverse (right). 
+        The predicted trajectories are shown in green, ground truth in red, past in cyan, and the trajectories of other agents in black. 
+    </p>
+    <hr>
+
+    <h1>Paper</h1>
+
+    <div class="paper-info"style="width: 80%;">
+        <h3>ADAPT: Efficient Multi-Agent Trajectory Prediction with Adaptation</h3>
+        <p>Gorkay Aydemir, Adil Kaan Akan and Fatma Guney</p>
+
+        <p>ICCV 2023</p>
+        <pre><code>@InProceedings{Aydemir2023ICCV,
+        author = {Aydemir, G\"orkay and Akan, Adil Kaan and G\"uney, Fatma},
+        title = {{ADAPT}: Efficient Multi-Agent Trajectory Prediction with Adaptation},
+        booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision},
+        year      = {2023}}
+                </code></pre>
+    </div>
+
+    <br><br>
+
+</div>
+
+</body>
+
+</html>

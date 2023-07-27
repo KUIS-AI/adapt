@@ -1,0 +1,5 @@
+@InProceedings{Aydemir2023ICCV,
+    author = {Aydemir, G\"orkay and Akan, Adil Kaan and G\"uney, Fatma},
+    title = {{ADAPT}: Efficient Multi-Agent Trajectory Prediction with Adaptation},
+    booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision},
+    year      = {2023}}
